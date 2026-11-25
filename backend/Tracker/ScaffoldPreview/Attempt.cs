@@ -13,6 +13,8 @@ public partial class Attempt
     public Guid BugId { get; set; }
 
     public Guid SubmittedById { get; set; }
+    
+    public required string[] Links { get; init; }
 
     public Guid? ReviewerId { get; set; }
     
