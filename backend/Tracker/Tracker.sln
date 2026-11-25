@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker", "Tracker.csproj", "{C527E9BD-5D92-4582-956B-04106817A148}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C527E9BD-5D92-4582-956B-04106817A148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C527E9BD-5D92-4582-956B-04106817A148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C527E9BD-5D92-4582-956B-04106817A148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C527E9BD-5D92-4582-956B-04106817A148}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

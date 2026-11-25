@@ -1,1 +1,11 @@
 .env
+
+
+[Bb]in/
+[Oo]bj/
+
+
+appsettings.Development.json
+
+.idea/
+.env.*
