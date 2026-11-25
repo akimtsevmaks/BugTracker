@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Tracker.ScaffoldPreview;
 
@@ -62,7 +63,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.DisplayName).HasColumnName("display_name");
             entity.Property(e => e.Login).HasColumnName("login");
             entity.Property(e => e.NormalizedLogin)
@@ -83,7 +84,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.AdminId).HasColumnName("admin_id");
             entity.Property(e => e.Channel).HasColumnName("channel");
             entity.Property(e => e.Destination).HasColumnName("destination");
@@ -119,7 +120,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.BugId).HasColumnName("bug_id");
             entity.Property(e => e.Bytes).HasColumnName("bytes");
             entity.Property(e => e.CommentId).HasColumnName("comment_id");
@@ -181,7 +182,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.BugId).HasColumnName("bug_id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
@@ -240,7 +241,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.AssigneeId).HasColumnName("assignee_id");
             entity.Property(e => e.AuthorId).HasColumnName("author_id");
             entity.Property(e => e.CreatedAt)
@@ -255,7 +256,8 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.Version)
                 .HasDefaultValue(1)
-                .HasColumnName("version");
+                .HasColumnName("version")
+                .IsConcurrencyToken();
             entity.Property(e => e.Priority).HasColumnName("priority");
             entity.Property(e => e.State).HasColumnName("state");
 
@@ -303,7 +305,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.Destination).HasColumnName("destination");
             entity.Property(e => e.Enabled).HasColumnName("enabled");
             entity.Property(e => e.UserId).HasColumnName("user_id");
@@ -332,7 +334,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.AuthorId).HasColumnName("author_id");
             entity.Property(e => e.BugId).HasColumnName("bug_id");
             entity.Property(e => e.CreatedAt)
@@ -368,7 +370,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.Attempts).HasColumnName("attempts");
             entity.Property(e => e.Destination).HasColumnName("destination");
             entity.Property(e => e.LastError).HasColumnName("last_error");
@@ -409,7 +411,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.ActorId).HasColumnName("actor_id");
             entity.Property(e => e.BugId).HasColumnName("bug_id");
             entity.Property(e => e.CreatedAt)
@@ -456,7 +458,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.IsActive).HasColumnName("is_active");
             entity.Property(e => e.ProjectId).HasColumnName("project_id");
             entity.Property(e => e.Roles).HasColumnName("roles");
@@ -485,7 +487,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.BugId).HasColumnName("bug_id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
@@ -513,7 +515,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.IsArchived).HasColumnName("is_archived");
             entity.Property(e => e.Name).HasColumnName("name");
@@ -554,7 +556,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.Content).HasColumnName("content");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
@@ -567,7 +569,8 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.SenderId).HasColumnName("sender_id");
             entity.Property(e => e.Version)
                 .HasDefaultValue(1)
-                .HasColumnName("version");
+                .HasColumnName("version")
+                .IsConcurrencyToken();
             entity.Property(e => e.State).HasColumnName("state");
 
             entity.HasOne(d => d.Project).WithMany(p => p.Reports)
@@ -612,7 +615,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.KeyHash).HasColumnName("key_hash");
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.NormalizedName)
@@ -636,13 +639,15 @@ public partial class ScaffoldedTrackerDbContext : DbContext
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
-                .HasColumnName("id");
+                .HasColumnName("id").Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
             entity.Property(e => e.DisplayName).HasColumnName("display_name");
             entity.Property(e => e.Login).HasColumnName("login");
             entity.Property(e => e.NormalizedLogin)
                 .HasComputedColumnSql("lower(btrim((login)::text))", true)
                 .HasColumnName("normalized_login");
-            entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+            entity.Property(e => e.PasswordHash)
+                .HasColumnName("password_hash")
+                .IsConcurrencyToken();
         });
 
         OnModelCreatingPartial(modelBuilder);
