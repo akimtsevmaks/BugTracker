@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Tracker.ScaffoldPreview.Enums;
 
 namespace Tracker.ScaffoldPreview;
 
@@ -14,6 +15,8 @@ public partial class History
     public Guid ActorId { get; set; }
 
     public Guid OperationId { get; set; }
+    
+    public required HistoryProperty Property { get; init; }
 
     public string? OldValue { get; set; }
 

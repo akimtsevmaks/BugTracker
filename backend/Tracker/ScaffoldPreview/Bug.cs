@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Tracker.ScaffoldPreview.Enums;
 
 namespace Tracker.ScaffoldPreview;
 
@@ -20,6 +21,10 @@ public partial class Bug
     public string Description { get; set; } = null!;
 
     public string ReproductionSteps { get; set; } = null!;
+    
+    public required BugPriority Priority { get; set; }
+    
+    public required BugState State { get; set; }
 
     public DateOnly? Deadline { get; set; }
 

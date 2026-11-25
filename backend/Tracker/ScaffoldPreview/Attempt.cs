@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Tracker.ScaffoldPreview.Enums;
 
 namespace Tracker.ScaffoldPreview;
 
@@ -14,6 +15,8 @@ public partial class Attempt
     public Guid SubmittedById { get; set; }
 
     public Guid? ReviewerId { get; set; }
+    
+    public AttemptResult? Result { get; set; }
 
     public string? Reason { get; set; }
 

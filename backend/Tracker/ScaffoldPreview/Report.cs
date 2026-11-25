@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Tracker.ScaffoldPreview.Enums;
 
 namespace Tracker.ScaffoldPreview;
 
@@ -16,6 +17,8 @@ public partial class Report
     public string? ExternalId { get; set; }
 
     public string Content { get; set; } = null!;
+    
+    public required ReportState State { get; set; }
 
     public Guid? HandlerId { get; set; }
 
