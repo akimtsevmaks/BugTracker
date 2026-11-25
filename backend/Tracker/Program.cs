@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using Tracker.ScaffoldPreview;
-using Tracker.ScaffoldPreview.Enums;
+using Tracker.Data;
+using Tracker.Data.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<ScaffoldedTrackerDbContext>(options =>
+builder.Services.AddDbContext<TrackerDbContext>(options =>
     options.UseNpgsql(connectionString, postgres =>
     {
         postgres.MapEnum<AttemptResult>("attempt_result", "bugtracker");
