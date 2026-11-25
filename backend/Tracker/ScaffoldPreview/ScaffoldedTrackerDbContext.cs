@@ -75,12 +75,17 @@ public partial class ScaffoldedTrackerDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("admin_channels_pkey");
 
-            entity.ToTable("admin_channels", "bugtracker");
+            entity.ToTable("admin_channels", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("admin_channels_check",
+                    "NOT enabled OR destination ~ '[^[:space:]]'");
+            });
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
                 .HasColumnName("id");
             entity.Property(e => e.AdminId).HasColumnName("admin_id");
+            entity.Property(e => e.Channel).HasColumnName("channel");
             entity.Property(e => e.Destination).HasColumnName("destination");
             entity.Property(e => e.Enabled).HasColumnName("enabled");
 
@@ -88,13 +93,23 @@ public partial class ScaffoldedTrackerDbContext : DbContext
                 .HasForeignKey(d => d.AdminId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("admin_channels_admin_id_fkey");
+            
+            entity.HasAlternateKey(e => new { e.AdminId, e.Channel })
+                .HasName("admin_channels_admin_id_channel_key");
         });
 
         modelBuilder.Entity<Attachment>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("attachments_pkey");
 
-            entity.ToTable("attachments", "bugtracker");
+            entity.ToTable("attachments", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("attachments_bytes_check",
+                    "octet_length(bytes) <= 3145728");
+
+                table.HasCheckConstraint("attachments_check",
+                    "num_nonnulls(bug_id, report_id, comment_id) = 1");
+            });
 
             entity.HasIndex(e => e.BugId, "attachments_bug_id_idx");
 
@@ -132,7 +147,25 @@ public partial class ScaffoldedTrackerDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("attempts_pkey");
 
-            entity.ToTable("attempts", "bugtracker");
+            entity.ToTable("attempts", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("attempts_check", """
+                                                           (result IS NULL AND reviewer_id IS NULL AND reviewed_at IS NULL AND reason IS NULL)
+                                                           OR
+                                                           (result IS NOT NULL AND reviewer_id IS NOT NULL AND reviewed_at IS NOT NULL
+                                                            AND ((result = 'accepted' AND reason IS NULL)
+                                                                 OR (result = 'returned' AND reason IS NOT NULL)))
+                                                           """);
+
+                table.HasCheckConstraint("attempts_check1",
+                    "reviewed_at IS NULL OR reviewed_at >= created_at");
+
+                table.HasCheckConstraint("attempts_links_check", """
+                                                                 cardinality(links) BETWEEN 1 AND 20
+                                                                 AND array_ndims(links) = 1
+                                                                 AND array_position(links, NULL::bugtracker.nonempty) IS NULL
+                                                                 """);
+            });
 
             entity.HasIndex(e => new { e.BugId, e.CreatedAt }, "attempts_bug_id_created_at_idx");
 
@@ -158,6 +191,10 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.ReviewedAt).HasColumnName("reviewed_at");
             entity.Property(e => e.ReviewerId).HasColumnName("reviewer_id");
             entity.Property(e => e.SubmittedById).HasColumnName("submitted_by_id");
+            entity.Property(e => e.Result).HasColumnName("result");
+            entity.Property(e => e.Links)
+                .HasColumnName("links")
+                .HasColumnType("bugtracker.nonempty[]");
 
             entity.HasOne(d => d.Bug).WithMany(p => p.Attempts)
                 .HasPrincipalKey(p => new { p.ProjectId, p.Id })
@@ -182,7 +219,16 @@ public partial class ScaffoldedTrackerDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("bugs_pkey");
 
-            entity.ToTable("bugs", "bugtracker");
+            entity.ToTable("bugs", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("bugs_check", """
+                                                       (state = 'waiting' AND assignee_id IS NULL AND release_url IS NULL)
+                                                       OR (state IN ('in_work', 'on_review') AND assignee_id IS NOT NULL AND release_url IS NULL)
+                                                       OR (state = 'closed' AND assignee_id IS NOT NULL AND release_url IS NOT NULL)
+                                                       """);
+
+                table.HasCheckConstraint("bugs_version_check", "version > 0");
+            });
 
             entity.HasIndex(e => new { e.ProjectId, e.AuthorId }, "bugs_project_id_author_id_idx");
 
@@ -210,6 +256,8 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.Version)
                 .HasDefaultValue(1)
                 .HasColumnName("version");
+            entity.Property(e => e.Priority).HasColumnName("priority");
+            entity.Property(e => e.State).HasColumnName("state");
 
             entity.HasOne(d => d.Project).WithMany(p => p.Bugs)
                 .HasForeignKey(d => d.ProjectId)
@@ -233,13 +281,25 @@ public partial class ScaffoldedTrackerDbContext : DbContext
                 .HasForeignKey(d => new { d.ProjectId, d.SourceReportId })
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("bugs_project_id_source_report_id_fkey");
+            
+            entity.HasIndex(
+                e => new { e.ProjectId, e.AssigneeId, e.State, e.Deadline },
+                "bugs_project_id_assignee_id_state_deadline_idx");
+
+            entity.HasIndex(
+                e => new { e.ProjectId, e.State, e.CreatedAt },
+                "bugs_project_id_state_created_at_idx");
         });
 
         modelBuilder.Entity<Channel>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("channels_pkey");
 
-            entity.ToTable("channels", "bugtracker");
+            entity.ToTable("channels", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("channels_check",
+                    "NOT enabled OR destination ~ '[^[:space:]]'");
+            });
 
             entity.Property(e => e.Id)
                 .HasDefaultValueSql("uuidv7()")
@@ -247,11 +307,15 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.Destination).HasColumnName("destination");
             entity.Property(e => e.Enabled).HasColumnName("enabled");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.Type).HasColumnName("channel");
 
             entity.HasOne(d => d.User).WithMany(p => p.Channels)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("channels_user_id_fkey");
+            
+            entity.HasAlternateKey(e => new { e.UserId, e.Type })
+                .HasName("channels_user_id_channel_key");
         });
 
         modelBuilder.Entity<Comment>(entity =>
@@ -295,7 +359,10 @@ public partial class ScaffoldedTrackerDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("deliveries_pkey");
 
-            entity.ToTable("deliveries", "bugtracker");
+            entity.ToTable("deliveries", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("deliveries_attempts_check", "attempts >= 0");
+            });
 
             entity.HasIndex(e => new { e.NextTryAt, e.Id }, "deliveries_next_try_at_id_idx").HasFilter("(status = ANY (ARRAY['pending'::delivery_status, 'sending'::delivery_status]))");
 
@@ -307,18 +374,32 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.LastError).HasColumnName("last_error");
             entity.Property(e => e.NextTryAt).HasColumnName("next_try_at");
             entity.Property(e => e.NotificationId).HasColumnName("notification_id");
+            entity.Property(e => e.Channel).HasColumnName("channel");
+            entity.Property(e => e.Status).HasColumnName("status");
 
             entity.HasOne(d => d.Notification).WithMany(p => p.Deliveries)
                 .HasForeignKey(d => d.NotificationId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("deliveries_notification_id_fkey");
+            
+            entity.HasAlternateKey(e => new { e.NotificationId, e.Channel })
+                .HasName("deliveries_notification_id_channel_key");
         });
 
         modelBuilder.Entity<History>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("history_pkey");
 
-            entity.ToTable("history", "bugtracker");
+            entity.ToTable("history", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("history_check",
+                    "old_value IS DISTINCT FROM new_value");
+
+                table.HasCheckConstraint("history_check1", """
+                                                           property NOT IN ('priority', 'deadline')
+                                                           OR (reason IS NOT NULL AND reason ~ '[^[:space:]]')
+                                                           """);
+            });
 
             entity.HasIndex(e => new { e.BugId, e.CreatedAt, e.Id }, "history_bug_id_created_at_id_idx");
 
@@ -339,6 +420,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.OperationId).HasColumnName("operation_id");
             entity.Property(e => e.ProjectId).HasColumnName("project_id");
             entity.Property(e => e.Reason).HasColumnName("reason");
+            entity.Property(e => e.Property).HasColumnName("property");
 
             entity.HasOne(d => d.Member).WithMany(p => p.Histories)
                 .HasPrincipalKey(p => new { p.ProjectId, p.Id })
@@ -351,13 +433,20 @@ public partial class ScaffoldedTrackerDbContext : DbContext
                 .HasForeignKey(d => new { d.ProjectId, d.BugId })
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("history_project_id_bug_id_fkey");
+            
+            entity.HasAlternateKey(e => new { e.BugId, e.OperationId, e.Property })
+                .HasName("history_bug_id_operation_id_property_key");
         });
 
         modelBuilder.Entity<Member>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("members_pkey");
 
-            entity.ToTable("members", "bugtracker");
+            entity.ToTable("members", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("members_check", "NOT is_active OR roles > 0");
+                table.HasCheckConstraint("members_roles_check", "roles BETWEEN 0 AND 7");
+            });
 
             entity.HasIndex(e => new { e.ProjectId, e.Id }, "members_project_id_id_key").IsUnique();
 
@@ -435,7 +524,21 @@ public partial class ScaffoldedTrackerDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("reports_pkey");
 
-            entity.ToTable("reports", "bugtracker");
+            entity.ToTable("reports", "bugtracker", table =>
+            {
+                table.HasCheckConstraint("reports_check", """
+                                                          (sender_id IS NOT NULL AND external_source_id IS NULL AND external_id IS NULL)
+                                                          OR (sender_id IS NULL AND external_source_id IS NOT NULL AND external_id IS NOT NULL)
+                                                          """);
+
+                table.HasCheckConstraint("reports_check1", """
+                                                           (state = 'not_processed' AND handler_id IS NULL AND explanation IS NULL)
+                                                           OR (state = 'in_processing' AND handler_id IS NOT NULL AND explanation IS NULL)
+                                                           OR (state = 'processed' AND handler_id IS NOT NULL)
+                                                           """);
+
+                table.HasCheckConstraint("reports_version_check", "version > 0");
+            });
 
             entity.HasIndex(e => new { e.ExternalSourceId, e.ExternalId }, "reports_external_source_id_external_id_idx")
                 .IsUnique()
@@ -465,6 +568,7 @@ public partial class ScaffoldedTrackerDbContext : DbContext
             entity.Property(e => e.Version)
                 .HasDefaultValue(1)
                 .HasColumnName("version");
+            entity.Property(e => e.State).HasColumnName("state");
 
             entity.HasOne(d => d.Project).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.ProjectId)
@@ -488,6 +592,10 @@ public partial class ScaffoldedTrackerDbContext : DbContext
                 .HasForeignKey(d => new { d.ProjectId, d.SenderId })
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("reports_project_id_sender_id_fkey");
+            
+            entity.HasIndex(
+                e => new { e.ProjectId, e.State, e.CreatedAt },
+                "reports_project_id_state_created_at_idx");
         });
 
         modelBuilder.Entity<ReportSource>(entity =>
