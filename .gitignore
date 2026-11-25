@@ -6,6 +6,8 @@
 
 
 appsettings.Development.json
+*.DotSettings.user
 
 .idea/
 .env.*
+
