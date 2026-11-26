@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4772b3">
+    <link rel="icon" href="../assets/logo.png">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="user.html">
+      </a>
+      <nav>
+        <a class="button navigation-button" href="projects.html">
+          Списки проектов
+        </a>
+        <a class="button navigation-button" href="notifications.html">
+          Уведомления
+        </a>
+      </nav>
+    </header>
+    <main id="content" class="page form-page form-page-centered">
+      <form class="panel editor-form" action="report.html" novalidate>
+        <h1>
+          Добавить репорт
+        </h1>
+        <label class="form-row">
+          <span>
+            *Описание:
+          </span>
+          <input name="description" type="text" placeholder="Напишите описание здесь…">
+        </label>
+        <label class="form-row">
+          <span>
+            *Шаги воспроизведения:
+          </span>
+          <textarea name="steps" placeholder="Напишите шаги здесь…" rows="4"></textarea>
+        </label>
+        <div class="form-row">
+          <span>
+            Вложения:
+          </span>
+          <label class="button file-button">
+            Прикрепить файлы
+            <input type="file" name="files" multiple >
+          </label>
+        </div>
+        <p class="selected-files" aria-live="polite"></p>
+        <div class="form-actions">
+          <a class="button" href="project.html">
+            Отмена
+          </a>
+          <button class="button" type="submit">
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

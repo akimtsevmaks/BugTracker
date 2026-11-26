@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4772b3">
+    <link rel="icon" href="../assets/logo.png">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="user.html">
+      </a>
+      <nav>
+        <a class="button navigation-button" href="projects.html">
+          Списки проектов
+        </a>
+        <a class="button navigation-button" href="notifications.html">
+          Уведомления
+        </a>
+      </nav>
+    </header>
+    <main id="content" class="page form-page create-bug-page">
+      <form class="panel editor-form" action="bug.html" novalidate>
+        <h1>
+          Создать баг
+        </h1>
+        <label class="form-row title-row">
+          <span>
+            *Название:
+          </span>
+          <input name="title" type="text" placeholder="Напишите название здесь…">
+        </label>
+        <label class="form-row description-row">
+          <span>
+            *Описание:
+          </span>
+          <input name="description" type="text" placeholder="Напишите описание здесь…">
+        </label>
+        <label class="form-row steps-row">
+          <span>
+            *Шаги воспроизведения:
+          </span>
+          <textarea name="steps" placeholder="Напишите шаги здесь…" rows="4"></textarea>
+        </label>
+        <div class="form-row">
+          <span>
+            *Приоритет:
+          </span>
+          <button class="button" type="button" data-open-dialog="priority-dialog">
+            Выбрать приоритет
+          </button>
+        </div>
+        <label class="form-row">
+          <span>
+            Основание приоритета:
+          </span>
+          <input name="priorityReason" type="text" placeholder="Напишите основание здесь…">
+        </label>
+        <div class="form-row attachments-row">
+          <span>
+            Вложения:
+          </span>
+          <label class="button file-button">
+            Прикрепить файлы
+            <input type="file" name="files" multiple >
+          </label>
+        </div>
+        <p class="selected-files" aria-live="polite"></p>
+        <label class="form-row">
+          <span>
+            Репорт:
+          </span>
+          <input name="reportId" type="text" placeholder="Вставить ссылку">
+        </label>
+        <div class="form-actions">
+          <a class="button" href="project.html">
+            Отмена
+          </a>
+          <button class="button" type="submit">
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </main>
+    <dialog id="priority-dialog" class="choice-dialog">
+      <form method="dialog" novalidate>
+        <h2>
+          Выберите приоритет бага:
+        </h2>
+        <button type="button" class="dialog-close" data-close-dialog>
+          ×
+        </button>
+        <label class="choice-row">
+          <span>
+            Высокий
+          </span>
+          <input type="radio" name="priority" value="высокий">
+        </label>
+        <label class="choice-row">
+          <span>
+            Средний
+          </span>
+          <input type="radio" name="priority" value="средний">
+        </label>
+        <label class="choice-row">
+          <span>
+            Низкий
+          </span>
+          <input type="radio" name="priority" value="низкий">
+        </label>
+        <div class="dialog-actions">
+          <button class="button" type="submit">
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

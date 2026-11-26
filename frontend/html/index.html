@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4772b3">
+    <link rel="icon" href="../assets/logo.png">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../js/main.js" defer></script>
+  </head>
+
+  <body>
+    
+    <header class="site-header login-header">
+      <a class="logo" href="index.html">
+      </a>
+    </header>
+    <main id="content" class="page login-page">
+      <form class="panel login-form" action="projects.html" novalidate>
+        <label class="form-row">
+          <span>
+            *Логин:
+          </span>
+          <input type="text" name="login" placeholder="Введите логин…">
+        </label>
+        <label class="form-row">
+          <span>
+            *Пароль:
+          </span>
+          <input type="password" name="password" placeholder="Введите пароль…">
+        </label>
+        <button class="button login-submit" type="submit">
+          Войти
+        </button>
+        <label class="login-admin">
+          <input type="checkbox" name="admin">
+          <span>
+            Входит админ
+          </span>
+        </label>
+      </form>
+    </main>
+    <div class="popup-stack login-message" role="status"></div>
+  </body>
+</html>

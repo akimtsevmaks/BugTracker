@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4772b3">
+    <link rel="icon" href="../assets/logo.png">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="user.html">
+      </a>
+      <nav>
+        <a class="button navigation-button" href="projects.html">
+          Списки проектов
+        </a>
+        <a class="button navigation-button" href="notifications.html">
+          Уведомления
+        </a>
+      </nav>
+    </header>
+    <main id="content" class="page form-page form-page-centered">
+      <form class="panel editor-form" action="project.html" novalidate>
+        <h1>
+          Добавить проект
+        </h1>
+        <label class="form-row">
+          <span>
+            *Название:
+          </span>
+          <input name="name" type="text" placeholder="Напишите название здесь…">
+        </label>
+        <label class="form-row">
+          <span>
+            *Описание:
+          </span>
+          <textarea name="description" placeholder="Напишите описание здесь…" rows="3"></textarea>
+        </label>
+        <label class="form-row">
+          <span>
+            Ссылка на репозиторий:
+          </span>
+          <input name="repository" type="url" placeholder="Вставить ссылку">
+        </label>
+        <div class="form-actions">
+          <button class="button" type="submit">
+            Добавить
+          </button>
+          <a class="button" href="projects.html">
+            Отмена
+          </a>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4772b3">
+    <link rel="icon" href="../assets/logo.png">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="user.html">
+      </a>
+      <nav>
+        <a class="button navigation-button" href="projects.html">
+          Списки проектов
+        </a>
+        <a class="button navigation-button" href="notifications.html">
+          Уведомления
+        </a>
+      </nav>
+    </header>
+    <main id="content" class="page report-detail-page">
+      <article class="panel report-detail">
+        <h1 class="detail-title">
+          Репорт #1
+        </h1>
+        <p class="detail-status">
+          Статус:
+          <span>
+            Не обработан
+          </span>
+        </p>
+        <p class="detail-source">
+          От кого:
+          <span>
+            Внешняя система репортов
+          </span>
+        </p>
+        <p>
+          Описание:
+          <span>
+            Баг воспроизводится очень просто и позволяет делать очень много непотребств. Следовательно, нужно решить баг очень быстро.
+          </span>
+        </p>
+        <p>
+          Обрабатывает:
+          <span>
+            —
+          </span>
+        </p>
+        <p class="multiline">Шаги воспроизведения:<br><span>1. Удалить аккаунт
+2. Сделать сальто
+3. Удалить куки
+4. Сломать мышку</span></p>
+        <div class="attachments">
+          <span>
+            Вложения:
+          </span>
+          <span class="attachment-button">
+            <img src="../assets/file.svg" alt="">
+            Баг.zip
+          </span>
+          <span class="attachment-button">
+            <img src="../assets/file.svg" alt="">
+            Тест.zip
+          </span>
+          <span class="attachment-button">
+            <img src="../assets/file.svg" alt="">
+            Скриншот.png
+          </span>
+        </div>
+        <a class="text-link" href="bug.html">
+          Созданный баг
+        </a>
+        <div class="report-comment-box">
+          <p class="report-comment">
+            Комментарий репорта
+          </p>
+        </div>
+        <div class="button-stack">
+          <button class="button" type="button">
+            Взять в обработку
+          </button>
+          <a class="button" href="create-bug.html">
+            Создать баг по репорту
+          </a>
+          <button class="button" type="button" data-open-dialog="report-dialog">
+            Закрыть репорт как обработанный
+          </button>
+        </div>
+      </article>
+    </main>
+    <dialog id="report-dialog" class="choice-dialog report-dialog">
+      <form method="dialog" novalidate>
+        <h2>
+          Комментарий к обработанному репорту:
+        </h2>
+        <button class="dialog-close" type="button" data-close-dialog>
+          ×
+        </button>
+        <textarea name="comment" rows="6" placeholder="Введите текст…"></textarea>
+        <button class="button" type="submit">
+          Отправить
+        </button>
+      </form>
+    </dialog>
+  </body>
+</html>

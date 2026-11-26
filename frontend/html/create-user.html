@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#4772b3">
+    <link rel="icon" href="../assets/logo.png">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../js/main.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="user.html">
+      </a>
+      <nav>
+        <a class="button navigation-button" href="projects.html">
+          Списки проектов
+        </a>
+        <a class="button navigation-button" href="notifications.html">
+          Уведомления
+        </a>
+      </nav>
+    </header>
+    <main id="content" class="page form-page user-form-page">
+      <form class="panel editor-form" action="users.html" novalidate>
+        <h1>
+          Добавить участника на платформу
+        </h1>
+        <label class="form-row">
+          <span>
+            *Имя:
+          </span>
+          <input name="firstName" type="text" placeholder="Напишите имя здесь…">
+        </label>
+        <label class="form-row">
+          <span>
+            *Фамилия:
+          </span>
+          <input name="lastName" type="text" placeholder="Напишите фамилию здесь…">
+        </label>
+        <label class="form-row">
+          <span>
+            Отчество:
+          </span>
+          <input name="middleName" type="text" placeholder="Напишите отчество здесь…">
+        </label>
+        <div class="form-row">
+          <span>
+            Фото участника:
+          </span>
+          <label class="button file-button">
+            Прикрепить файлы
+            <input type="file" name="files" multiple accept="image/*">
+          </label>
+        </div>
+        <p class="selected-files" aria-live="polite"></p>
+        <label class="form-row">
+          <span>
+            *Логин:
+          </span>
+          <input name="login" type="text" placeholder="Напишите логин здесь…">
+        </label>
+        <div class="form-row">
+          <label class="inline-label" for="new-password">
+            *Пароль:
+          </label>
+          <div class="password-row">
+            <input id="new-password" name="password" type="text" placeholder="Введите пароль здесь…" minlength="6">
+            <button class="button" type="button">
+              Сгенерировать
+            </button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <a class="button" href="users.html">
+            Отмена
+          </a>
+          <button class="button" type="submit">
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
