@@ -3,7 +3,7 @@ using Tracker.Data;
 using Tracker.Data.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddControllers();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -19,6 +19,9 @@ builder.Services.AddDbContext<TrackerDbContext>(options =>
         postgres.MapEnum<ReportState>("report_state", "bugtracker");
     }));
 
+builder.Services.AddHealthChecks().AddCheck<Tracker.Health.DatabaseHealthCheck>("database_check");
+
 var app = builder.Build();
+app.MapControllers();
 
 app.Run();
